@@ -9,26 +9,25 @@ async function createAnimatedTetra() {
   const buffer = doc.createBuffer("dataBuffer")
   const positions = doc.createAccessor("positions")
     .setArray(new Float32Array([
-      -1.0, -1.0, 0,
-      1.0, -1.0, 0,
-      0.5, 0.5, 0,
-
-      -1.0, -1.0, 0,
-      0, 0, 1.0,
-      0.5, 0.5, 0,
-
-      -1.0, -1.0, 0,
-      1.0, -1.0, 0,
-      0, 0, 1.0,
-
-      0, 0, 1.0,
-      1.0, -1.0, 0,
-      0.5, 0.5, 0,
+      -1, -1, 0,
+      1, -1, 0,
+      0, 1, 0,
+      0, 0, 1,
     ]))
     .setType(Accessor.Type.VEC3)
     .setBuffer(buffer)
 
-  const primitive = doc.createPrimitive().setAttribute("POSITION", positions)
+  const indices = doc.createAccessor("indices")
+    .setArray(new Uint8Array([
+      0, 2, 1,
+      0, 1, 3,
+      1, 2, 3,
+      2, 0, 3,
+    ]))
+    .setType(Accessor.Type.SCALAR)
+    .setBuffer(buffer)
+
+  const primitive = doc.createPrimitive().setAttribute("POSITION", positions).setIndices(indices)
   const mesh = doc.createMesh("tetraMesh").addPrimitive(primitive)
   const node = doc.createNode("tetra").setMesh(mesh)
 
@@ -41,12 +40,12 @@ async function createAnimatedTetra() {
 
   const positionAccessor = doc.createAccessor("positions")
     .setArray(new Float32Array([
-      0, 0, 0,
-      1, 0, 0,
       0, 1, 0,
-      -1, 0, 0,
       0, -1, 0,
-      0, 0, 0,
+      0, 1, 0,
+      0, -1, 0,
+      0, 1, 0,
+      0, 1, 0,
     ]))
     .setType(Accessor.Type.VEC3)
     .setBuffer(buffer)
@@ -64,11 +63,11 @@ async function createAnimatedTetra() {
   const rotationAccessor = doc.createAccessor("rotations")
     .setArray(new Float32Array([
       0, 0, 0, 1,
-      1, 0, 0, 1,
-      0, 1, 0, 1,
-      -1, 0, 0, 1,
-      0, -1, 0, 1,
-      0, 0, 0, 1
+      0, 0.7071068, 0, 0.7071068, //  90 degree around y
+      0, 1, 0, 0,                 // 180 degree around y
+      0, 0.7071068, 0, -0.7071068,// 270 degree around y
+      0, 0, 0, -1,                // 360 degree around y
+      0, 0, 0, -1                 // 360 degree around y
     ]))
     .setType(Accessor.Type.VEC4)
     .setBuffer(buffer)
