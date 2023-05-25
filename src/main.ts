@@ -7,7 +7,8 @@ import {
 async function createAnimatedTetra() {
   const doc = new Document();
   const buffer = doc.createBuffer("dataBuffer")
-  const positions = doc.createAccessor("positions")
+
+  const verts = doc.createAccessor("verts")
     .setArray(new Float32Array([
       -1, -1, 0,
       1, -1, 0,
@@ -27,7 +28,7 @@ async function createAnimatedTetra() {
     .setType(Accessor.Type.SCALAR)
     .setBuffer(buffer)
 
-  const primitive = doc.createPrimitive().setAttribute("POSITION", positions).setIndices(indices)
+  const primitive = doc.createPrimitive().setAttribute("POSITION", verts).setIndices(indices)
   const mesh = doc.createMesh("tetraMesh").addPrimitive(primitive)
   const node = doc.createNode("tetra").setMesh(mesh)
 
